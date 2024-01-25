@@ -1,7 +1,7 @@
-import React from 'react';
+import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 
-const Screens: React.FC = () => {
+const Screens: FC = () => {
   return (
     <div>
       <h1>Screens</h1>
