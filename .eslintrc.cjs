@@ -6,4 +6,14 @@ module.exports = {
     '@electron-toolkit/eslint-config-ts/recommended',
     '@electron-toolkit/eslint-config-prettier',
   ],
+  rules: {
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/no-explicit-any': 'warn',
+    '@typescript-eslint/no-unused-vars': 'warn',
+  },
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
 };
