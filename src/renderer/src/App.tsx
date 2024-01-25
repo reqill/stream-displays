@@ -1,35 +1,21 @@
-import { useEffect } from 'react';
+import { FC } from 'react';
+import './assets/index.css';
+import { HashRouter, Routes, Route } from 'react-router-dom';
+import Screens from './pages/screens';
+import Screen from './pages/screen';
+import Dashboard from './pages/dashborad';
 
-const RANDOM_PATH_1_ID = 'fsdvrevexvs';
-const RANDOM_PATH_2_ID = 'sdfhbgiosdf';
-
-function App(): JSX.Element {
-  useEffect(() => {
-    const windowClosed = (pathId: string) => {
-      console.log('Window closed:', pathId);
-    };
-
-    window.api.on('new-window-closed', windowClosed);
-
-    return () => {
-      window.api.removeListener('new-window-closed', windowClosed);
-    };
-  }, []);
-
-  const handleOnClick = async (pathId: string) => {
-    window.api.send('open-new-window', `screens/${pathId}`);
-  };
-
+const App: FC = () => {
   return (
-    <div className="flex justify-center align-middle w-full h-screen flex-col gap-6 p-6">
-      <button className="ring-8 rounded-sm mx-auto" onClick={() => handleOnClick(RANDOM_PATH_1_ID)}>
-        Should open new window with {RANDOM_PATH_1_ID}
-      </button>
-      <button className="ring-8 rounded-sm mx-auto" onClick={() => handleOnClick(RANDOM_PATH_2_ID)}>
-        Should open new window with {RANDOM_PATH_2_ID}
-      </button>
-    </div>
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/screens" element={<Screens />}>
+          <Route path=":screenId" element={<Screen />} />
+        </Route>
+      </Routes>
+    </HashRouter>
   );
-}
+};
 
 export default App;
