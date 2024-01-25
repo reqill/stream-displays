@@ -1,4 +1,4 @@
-# sstream-displays
+# stream-displays
 
 An Electron application with React and TypeScript
 
