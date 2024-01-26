@@ -3,8 +3,6 @@ import { saveTemplate } from '@renderer/store/templates';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-type CreateViewFormProps = {};
-
 export const CreateViewForm = () => {
   const dispatch = useAppDispatch();
   const [name, setName] = useState('');

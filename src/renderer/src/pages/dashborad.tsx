@@ -1,3 +1,4 @@
+import { TemplateList } from '@renderer/components/Templates/TemplateList';
 import { useAppDispatch } from '@renderer/store';
 import { closeWindow, getOpenenedWindowsSelector, openWindow } from '@renderer/store/windows';
 import { FC, useEffect } from 'react';
@@ -44,6 +45,7 @@ const Dashboard: FC = () => {
         Should open new window with {RANDOM_PATH_2_ID}
         {openedWindows[`screens/${RANDOM_PATH_2_ID}`] ? ' (already opened)' : ''}
       </button>
+      <TemplateList />
     </div>
   );
 };
