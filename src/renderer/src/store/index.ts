@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import windowsReducer from './windows';
+import windowsSlice from './windows';
+import templatesSlice from './templates';
 import { useDispatch } from 'react-redux';
 
 export const store = configureStore({
   reducer: {
-    windows: windowsReducer,
+    windows: windowsSlice,
+    templates: templatesSlice,
   },
 });
 
