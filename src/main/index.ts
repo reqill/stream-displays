@@ -1,7 +1,9 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron';
+import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
+
+// TODO: delegate each event to a function in a separate file
 
 const getUrl = (path = '') =>
   is.dev && process.env['ELECTRON_RENDERER_URL']
@@ -27,6 +29,31 @@ function createWindow(): void {
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show();
+  });
+
+  // Because all views are dependent on base window we have to close them
+  mainWindow.on('close', (e) => {
+    if (BrowserWindow.getAllWindows().length === 1) {
+      return;
+    }
+
+    const choice = dialog.showMessageBoxSync(mainWindow, {
+      type: 'question',
+      buttons: ['Yes', 'No'],
+      title: 'Confirm',
+      message: 'Are you sure you want to quit? You have still some views open.',
+    });
+
+    if (choice === 1) {
+      e.preventDefault();
+      return;
+    }
+
+    BrowserWindow.getAllWindows().forEach((window) => {
+      if (window.id !== mainWindow.id) {
+        window.close();
+      }
+    });
   });
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -69,7 +96,7 @@ app.whenReady().then(() => {
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
+app.on('window-all-closed', async () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
