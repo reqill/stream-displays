@@ -40,12 +40,12 @@ const saveTemplate = createAsyncThunk(
     const { payload: templateKeys } = await dispatch(getAvailableTemplates());
 
     if (!templateKeys.includes(template.id)) {
-      await dispatch(addTemplateKeyToStorage(template.id));
+      await dispatch(addTemplateKeyToStorage(template.id)).unwrap();
     }
 
     localStorage.setItem(template.id, JSON.stringify(template));
 
-    dispatch(getTemplate(template.id));
+    return dispatch(getTemplate(template.id)).unwrap();
   }
 );
 
