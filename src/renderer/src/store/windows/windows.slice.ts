@@ -1,7 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export type WindowsState = {
-  // TODO: Decide if we want to store it in array or object
   openedWindows: { [key: string]: boolean };
 };
 
@@ -20,17 +19,12 @@ export const windowsSlice = createSlice({
       state.openedWindows[action.payload] = true;
     },
 
-    // @eslint-ignore-next-line @typescript-eslint/no-unused-vars
-    focusWindow: (_state, _action) => {
-      // TODO: Decide if implement or leave this logic in the main process
-    },
-
     closeWindow: (state, action) => {
       delete state.openedWindows[action.payload];
     },
   },
 });
 
-export const { openWindow, focusWindow, closeWindow } = windowsSlice.actions;
+export const { openWindow, closeWindow } = windowsSlice.actions;
 
 export default windowsSlice.reducer;
