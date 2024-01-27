@@ -27,7 +27,7 @@ export const Dialog: FC<DialogProps> = ({
     <HeadlessDialog onClose={onClose} open={open} className="relative z-50">
       <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
       <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-        <HeadlessDialog.Panel className="w-full max-w-sm rounded bg-zinc-50">
+        <HeadlessDialog.Panel className="w-full max-w-sm rounded bg-zinc-50 px-4 py-2">
           {title && <HeadlessDialog.Title>Create new view</HeadlessDialog.Title>}
           {description && <HeadlessDialog.Description>{description}</HeadlessDialog.Description>}
 

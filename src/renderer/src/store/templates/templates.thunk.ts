@@ -60,6 +60,8 @@ const removeTemplate = createAsyncThunk(
 
     localStorage.removeItem(templateKey);
 
+    // TODO: close template if it's opened
+
     return templateKey;
   }
 );
