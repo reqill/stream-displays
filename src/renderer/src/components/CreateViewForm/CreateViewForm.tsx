@@ -3,6 +3,7 @@ import { saveTemplate } from '@renderer/store/templates';
 import { FC, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Dialog } from '../base/Dialog';
+import { TextInput } from '../base/TextInput';
 
 type CreateViewFormProps = {
   open?: boolean;
@@ -26,10 +27,13 @@ export const CreateViewForm: FC<CreateViewFormProps> = ({ onClose, open }) => {
       title="Create new view"
       SaveButtonProps={{ onClick: handleSave }}
     >
-      <div className="flex flex-col">
-        <label htmlFor="name">Name</label>
-        <input id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} />
-      </div>
+      <TextInput
+        label="Name"
+        name="view_name"
+        value={name}
+        onChange={setName}
+        placeholder="Enter view name"
+      />
     </Dialog>
   );
 };
