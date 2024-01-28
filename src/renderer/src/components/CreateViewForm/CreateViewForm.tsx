@@ -8,6 +8,7 @@ import { InputContainer } from '../base/Input/InputContainer';
 import { InputLabel } from '../base/Input/InputLabel';
 import { InputRoot } from '../base/Input/InputRoot';
 import { getRandomName } from '@renderer/utils/getRandomName';
+import { Checkbox } from '../base/Checkbox';
 
 type CreateViewFormProps = {
   open?: boolean;
@@ -24,9 +25,11 @@ const DEFAULT_HEIGHT = 670;
 
 export const CreateViewForm: FC<CreateViewFormProps> = ({ onClose, open }) => {
   const dispatch = useAppDispatch();
+  // TODO: propably handle with formik
   const [name, setName] = useState('');
   const [width, setWidth] = useState(DEFAULT_WIDTH);
   const [height, setHeight] = useState(DEFAULT_HEIGHT);
+  const [resizeable, setResizeable] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [funnyPlaceholder, setFunnyplaceholder] = useState(getRandomName);
 
@@ -42,7 +45,14 @@ export const CreateViewForm: FC<CreateViewFormProps> = ({ onClose, open }) => {
       return;
     }
 
-    await dispatch(saveTemplate({ id: uuidv4(), name, resolution: { width, height } })).unwrap();
+    await dispatch(
+      saveTemplate({
+        id: uuidv4(),
+        name,
+        resolution: { width, height },
+        resizeable,
+      })
+    ).unwrap();
     handleClose();
   };
 
@@ -101,6 +111,7 @@ export const CreateViewForm: FC<CreateViewFormProps> = ({ onClose, open }) => {
           error={errorMessage}
           placeholder={`e.g. ${funnyPlaceholder}`}
         />
+
         <InputContainer>
           <InputLabel required>Resolution</InputLabel>
           <div className="flex flex-row gap-2">
@@ -123,6 +134,8 @@ export const CreateViewForm: FC<CreateViewFormProps> = ({ onClose, open }) => {
             />
           </div>
         </InputContainer>
+
+        <Checkbox label="Enable resize" checked={resizeable} onChange={setResizeable} />
       </div>
     </Dialog>
   );

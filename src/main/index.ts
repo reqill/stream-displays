@@ -102,14 +102,14 @@ app.on('window-all-closed', async () => {
   }
 });
 
-// In this file you can include the rest of your app"s specific main process
+// In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
 const windows: { [key: string]: BrowserWindow } = {};
 
 ipcMain.on(
   'open-new-window',
-  (_event, pathId: string, resolution: { width: number; height: number }) => {
+  (_event, pathId: string, resolution: { width: number; height: number }, resizable = false) => {
     const url = getUrl(pathId);
 
     if (windows[pathId]) {
@@ -121,6 +121,7 @@ ipcMain.on(
         webPreferences: {
           preload: join(__dirname, '../preload/index.js'),
         },
+        resizable,
       });
 
       windows[pathId] = newWin;
