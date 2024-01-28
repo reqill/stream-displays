@@ -46,7 +46,7 @@ const Dashboard: FC = () => {
     const path = `screens/${template.id}`;
 
     dispatch(openWindow(path));
-    window.api.send('open-new-window', path, template.resolution);
+    window.api.send('open-new-window', path, template.resolution, template.resizeable);
   };
 
   return (
