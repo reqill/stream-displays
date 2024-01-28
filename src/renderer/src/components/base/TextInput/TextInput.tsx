@@ -53,7 +53,7 @@ export const TextInput: FC<TextInputProps> = (props) => {
         value={value}
         onChange={handleOnChange}
         className={clsx(
-          'px-2 placeholder-zinc-400 text-[.95rem] placeholder:text-[.95rem] text-zinc-800 text-base h-9 border rounded-[5px] box-border bg-gray-50 border-gray-400 focus:outline-none focus:border-blue-500',
+          'px-2 py-[.3rem] placeholder-zinc-400 text-[.95rem] placeholder:text-[.95rem] text-zinc-800 text-base border rounded-sm box-border bg-gray-50 border-zinc-400/75 focus:outline-none focus:border-blue-500',
           hasError && 'border-red-500'
         )}
         placeholder={props.placeholder}
