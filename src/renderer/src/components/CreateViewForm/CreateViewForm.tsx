@@ -9,11 +9,15 @@ import { InputLabel } from '../base/Input/InputLabel';
 import { InputRoot } from '../base/Input/InputRoot';
 import { getRandomName } from '@renderer/utils/getRandomName';
 import { Checkbox } from '../base/Checkbox';
+import { SelectGroup } from '../base/SelectGroup';
+import { Button } from '../base/Button';
 
 type CreateViewFormProps = {
   open?: boolean;
   onClose: () => void;
 };
+
+type SupportedAspectRatio = 'Off' | '16/9' | '16/10' | '4/3';
 
 // TODO: make this available in /constants and use it also in main window creation
 const DEFAULT_WIDTH = 900;
@@ -32,6 +36,7 @@ export const CreateViewForm: FC<CreateViewFormProps> = ({ onClose, open }) => {
   const [resizeable, setResizeable] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [funnyPlaceholder, setFunnyplaceholder] = useState(getRandomName);
+  const [aspectRatio, setAspectRatio] = useState<SupportedAspectRatio>('Off');
 
   useEffect(() => {
     if (open) {
@@ -79,19 +84,42 @@ export const CreateViewForm: FC<CreateViewFormProps> = ({ onClose, open }) => {
   const handleWidthChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = +e.target.value;
 
-    // TODO: properly handle width restriction
-    // if (value >= MIN_WIDTH) {
+    if (aspectRatio !== 'Off') {
+      const [wFactor, hFactor] = aspectRatio.split('/').map((v) => +v);
+
+      setHeight(Math.floor(value * (hFactor / wFactor)));
+    }
     setWidth(value);
-    // }
   };
 
   const handleHeightChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = +e.target.value;
 
-    // TODO: properly handle height restriction
-    // if (value >= MIN_HEIGHT) {
+    if (aspectRatio !== 'Off') {
+      const [wFactor, hFactor] = aspectRatio.split('/').map((v) => +v);
+
+      setWidth(Math.floor(value * (wFactor / hFactor)));
+    }
+
     setHeight(value);
-    // }
+  };
+
+  const handleAspectRatioChange = (value: SupportedAspectRatio) => {
+    setAspectRatio(value);
+
+    if (value === 'Off') {
+      return;
+    }
+
+    const [wFactor, hFactor] = value.split('/').map((v) => +v);
+
+    setHeight(Math.floor(width * (hFactor / wFactor)));
+  };
+
+  const handleSetDefaultResolution = () => {
+    setAspectRatio('Off');
+    setWidth(DEFAULT_WIDTH);
+    setHeight(DEFAULT_HEIGHT);
   };
 
   return (
@@ -113,13 +141,23 @@ export const CreateViewForm: FC<CreateViewFormProps> = ({ onClose, open }) => {
         />
 
         <InputContainer>
+          <InputLabel required>Force aspect ratio</InputLabel>
+          <SelectGroup onChange={handleAspectRatioChange} selected={aspectRatio}>
+            <SelectGroup.Option value="Off">Off</SelectGroup.Option>
+            <SelectGroup.Option value="16/9">16:9</SelectGroup.Option>
+            <SelectGroup.Option value="16/10">16:10</SelectGroup.Option>
+            <SelectGroup.Option value="4/3">4:3</SelectGroup.Option>
+          </SelectGroup>
+        </InputContainer>
+
+        <InputContainer>
           <InputLabel required>Resolution</InputLabel>
           <div className="flex flex-row gap-2">
             <InputRoot
               placeholder="width"
               name="width"
               required
-              // className="w-20"
+              className="w-24"
               value={width}
               onChange={handleWidthChange}
             />
@@ -128,10 +166,13 @@ export const CreateViewForm: FC<CreateViewFormProps> = ({ onClose, open }) => {
               placeholder="height"
               name="height"
               required
-              // className="w-20"
+              className="w-24"
               value={height}
               onChange={handleHeightChange}
             />
+            <Button variant="tertiary" className="ml-auto" onClick={handleSetDefaultResolution}>
+              set defaults
+            </Button>
           </div>
         </InputContainer>
 
