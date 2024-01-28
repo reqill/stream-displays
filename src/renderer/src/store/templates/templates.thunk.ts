@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AVAILABLE_TEMPLATES_STORAGE_KEY } from '../../constants/availableTemplates';
+import { TemplateViewType } from '@renderer/types/templateView.types';
 
 const getAvailableTemplates = createAsyncThunk('templates/getAvailableTemplates', async () => {
   const templates = localStorage.getItem(AVAILABLE_TEMPLATES_STORAGE_KEY);
@@ -36,7 +37,7 @@ const removeTemplateKeyFromStorage = createAsyncThunk(
 
 const saveTemplate = createAsyncThunk(
   'templates/addTemplate',
-  async (template: { id: string; name: string }, { dispatch }) => {
+  async (template: TemplateViewType, { dispatch }) => {
     const { payload: templateKeys } = await dispatch(getAvailableTemplates());
 
     if (!templateKeys.includes(template.id)) {

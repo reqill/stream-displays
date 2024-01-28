@@ -7,7 +7,7 @@ type TemplateListProps = {
   templates?: TemplateViewType[];
   activeWindowIds?: string[];
   onAddNewClick: () => void;
-  onTemplateClick: (templateId: string) => void;
+  onTemplateClick: (template: TemplateViewType) => void;
 };
 
 export const TemplateList: FC<TemplateListProps> = ({
