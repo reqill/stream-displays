@@ -1,8 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { removeTemplate, getAllTemplates, getTemplate } from './templates.thunk';
+import { TemplateViewType } from '@renderer/types/templateView.types';
 
 type TemplatesState = {
-  [key: string]: { id: string; name: string };
+  // TODO: change to Array<TemplateViewType>
+  [key: string]: TemplateViewType;
 };
 
 export const TEMPLATES_STORE_SLICE_NAME = 'templates';
@@ -17,7 +19,7 @@ export const templatesSlice = createSlice({
 
   extraReducers: (builder) => {
     builder.addCase(getAllTemplates.fulfilled, (state, action) => {
-      action.payload.forEach((template: { id: string; name: string }) => {
+      action.payload.forEach((template: TemplateViewType) => {
         state[template.id] = template;
       });
     });

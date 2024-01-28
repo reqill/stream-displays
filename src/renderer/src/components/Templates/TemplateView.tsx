@@ -8,7 +8,7 @@ import TrashIcon from '@heroicons/react/20/solid/TrashIcon';
 type TemplateViewProps = {
   template: TemplateViewType;
   isOpened?: boolean;
-  onClick: (templateId: string) => void;
+  onClick: (template: TemplateViewType) => void;
 };
 
 export const TemplateView: FC<TemplateViewProps> = ({ template, isOpened = false, onClick }) => {
@@ -23,7 +23,7 @@ export const TemplateView: FC<TemplateViewProps> = ({ template, isOpened = false
     <TemplateBox borderStyle="solid">
       <div
         className="flex flex-grow flex-col justify-center align-middle relative cursor-default group"
-        onClick={() => onClick(template.id)}
+        onClick={() => onClick(template)}
       >
         <h3 className="text-2xl font-semibold text-gray-100 pb-[2px] mx-auto">{template.name}</h3>
         {isOpened && (

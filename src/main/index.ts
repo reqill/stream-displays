@@ -107,27 +107,29 @@ app.on('window-all-closed', async () => {
 
 const windows: { [key: string]: BrowserWindow } = {};
 
-ipcMain.on('open-new-window', (_event, pathId: string) => {
-  const url = getUrl(pathId);
+ipcMain.on(
+  'open-new-window',
+  (_event, pathId: string, resolution: { width: number; height: number }) => {
+    const url = getUrl(pathId);
 
-  if (windows[pathId]) {
-    windows[pathId].focus();
-    console.log('Window focused, because it was already open:', pathId);
-  } else {
-    const newWin = new BrowserWindow({
-      webPreferences: {
-        preload: join(__dirname, '../preload/index.js'),
-      },
-    });
+    if (windows[pathId]) {
+      windows[pathId].focus();
+    } else {
+      const newWin = new BrowserWindow({
+        width: resolution.width,
+        height: resolution.height,
+        webPreferences: {
+          preload: join(__dirname, '../preload/index.js'),
+        },
+      });
 
-    windows[pathId] = newWin;
-    newWin.loadURL(url);
+      windows[pathId] = newWin;
+      newWin.loadURL(url);
 
-    console.log('Window opened:', pathId);
-
-    newWin.on('closed', () => {
-      delete windows[pathId];
-      mainWindow.webContents.send('new-window-closed', pathId);
-    });
+      newWin.on('closed', () => {
+        delete windows[pathId];
+        mainWindow.webContents.send('new-window-closed', pathId);
+      });
+    }
   }
-});
+);

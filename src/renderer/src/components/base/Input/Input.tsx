@@ -1,15 +1,20 @@
 import clsx from 'clsx';
 import { ChangeEvent, FC, useId, useState } from 'react';
+import { InputContainer } from './InputContainer';
+import { InputLabel } from './InputLabel';
+import { InputRoot } from './InputRoot';
 
 type CommonTextInputProps = {
   label: string;
   placeholder?: string;
-  error?: string;
+  error?: string | null;
   helperText?: string;
   disabled?: boolean;
   name?: string;
+  required?: boolean;
   InputProps?: JSX.IntrinsicElements['input'];
   LabelProps?: JSX.IntrinsicElements['label'];
+  ContainerProps?: JSX.IntrinsicElements['div'];
 };
 
 type ControlledTextInputProps = CommonTextInputProps & {
@@ -26,7 +31,7 @@ type UncontrolledTextInputProps = CommonTextInputProps & {
 
 type TextInputProps = ControlledTextInputProps | UncontrolledTextInputProps;
 
-export const TextInput: FC<TextInputProps> = (props) => {
+export const Input: FC<TextInputProps> = (props) => {
   const isControlled = props.value !== undefined;
   const propsValue = props.value ?? '';
   const hasError = !!props.error;
@@ -45,30 +50,27 @@ export const TextInput: FC<TextInputProps> = (props) => {
   };
 
   return (
-    <div className="flex flex-col">
-      <label
-        htmlFor={id}
-        className="text-sm mb-1 mr-auto pl-[.05rem] text-zinc-700 font-medium"
-        {...props.LabelProps}
-      >
+    <InputContainer {...props.ContainerProps}>
+      <InputLabel htmlFor={id} required={props.required} {...props.LabelProps}>
         {props.label}
-      </label>
-      <input
+      </InputLabel>
+      <InputRoot
         id={id}
         type="text"
         value={value}
         onChange={handleOnChange}
-        className={clsx(
-          'px-2 py-[.3rem] placeholder-zinc-400 text-[.95rem] placeholder:text-[.95rem] text-zinc-800 text-base border rounded-sm box-border bg-gray-50 border-zinc-400/75 focus:outline-none focus:border-blue-500',
-          hasError && 'border-red-500'
-        )}
+        className={clsx(hasError && 'bg-red-500/10')}
         placeholder={props.placeholder}
+        required={props.required}
         disabled={props.disabled}
         name={props.name}
         {...props.InputProps}
       />
-      {hasError && <span>{props.error}</span>}
+
+      {hasError && <span className="text-red-500 text-sm pt-[.05rem]">{props.error}</span>}
+
+      {/* TODO: style */}
       {props.helperText && <span>{props.helperText}</span>}
-    </div>
+    </InputContainer>
   );
 };
