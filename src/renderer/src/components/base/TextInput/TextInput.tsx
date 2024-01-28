@@ -8,6 +8,8 @@ type CommonTextInputProps = {
   helperText?: string;
   disabled?: boolean;
   name?: string;
+  InputProps?: JSX.IntrinsicElements['input'];
+  LabelProps?: JSX.IntrinsicElements['label'];
 };
 
 type ControlledTextInputProps = CommonTextInputProps & {
@@ -44,7 +46,11 @@ export const TextInput: FC<TextInputProps> = (props) => {
 
   return (
     <div className="flex flex-col">
-      <label htmlFor={id} className="text-sm mb-1 mr-auto pl-[.05rem] text-zinc-700 font-medium">
+      <label
+        htmlFor={id}
+        className="text-sm mb-1 mr-auto pl-[.05rem] text-zinc-700 font-medium"
+        {...props.LabelProps}
+      >
         {props.label}
       </label>
       <input
@@ -59,6 +65,7 @@ export const TextInput: FC<TextInputProps> = (props) => {
         placeholder={props.placeholder}
         disabled={props.disabled}
         name={props.name}
+        {...props.InputProps}
       />
       {hasError && <span>{props.error}</span>}
       {props.helperText && <span>{props.helperText}</span>}
