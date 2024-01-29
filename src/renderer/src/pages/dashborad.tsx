@@ -1,7 +1,7 @@
 import { CreateViewForm } from '@renderer/components/CreateViewForm';
 import { TemplateList } from '@renderer/components/Templates/TemplateList';
 import { useAppDispatch } from '@renderer/store';
-import { getAllTemplates, getAllTemplatesInArraySelector } from '@renderer/store/templates';
+import { getAllTemplates, getAllTemplatesSelector } from '@renderer/store/templates';
 import { closeWindow, getOpenenedWindowsSelector, openWindow } from '@renderer/store/windows';
 import { TemplateViewType } from '@renderer/types/templateView.types';
 import { FC, useEffect, useState } from 'react';
@@ -13,7 +13,7 @@ const Dashboard: FC = () => {
   const [addTemplateFormIsOpen, setAddTemplateFormIsOpen] = useState(false);
 
   const openedWindowsUrls = useSelector(getOpenenedWindowsSelector);
-  const templates = useSelector(getAllTemplatesInArraySelector);
+  const templates = useSelector(getAllTemplatesSelector);
 
   const openedTemplateViews = Object.keys(openedWindowsUrls).map((url) =>
     url.replace(/^screens\//, '')

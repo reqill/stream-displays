@@ -3,13 +3,14 @@ import { removeTemplate, getAllTemplates, getTemplate } from './templates.thunk'
 import { TemplateViewType } from '@renderer/types/templateView.types';
 
 type TemplatesState = {
-  // TODO: change to Array<TemplateViewType>
-  [key: string]: TemplateViewType;
+  templates: TemplateViewType[];
 };
 
 export const TEMPLATES_STORE_SLICE_NAME = 'templates';
 
-const initialState: TemplatesState = {};
+const initialState: TemplatesState = {
+  templates: [],
+};
 
 export const templatesSlice = createSlice({
   name: TEMPLATES_STORE_SLICE_NAME,
@@ -19,17 +20,22 @@ export const templatesSlice = createSlice({
 
   extraReducers: (builder) => {
     builder.addCase(getAllTemplates.fulfilled, (state, action) => {
-      action.payload.forEach((template: TemplateViewType) => {
-        state[template.id] = template;
-      });
+      state.templates = action.payload;
     });
 
     builder.addCase(getTemplate.fulfilled, (state, action) => {
-      state[action.payload.id] = action.payload;
+      const template = action.payload;
+      const index = state.templates.findIndex((t) => t.id === template.id);
+
+      if (index === -1) {
+        state.templates.push(template);
+      } else {
+        state.templates[index] = template;
+      }
     });
 
     builder.addCase(removeTemplate.fulfilled, (state, action) => {
-      delete state[action.payload];
+      state.templates = state.templates.filter((t) => t.id !== action.payload);
     });
   },
 });
