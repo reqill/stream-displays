@@ -46,7 +46,14 @@ const Dashboard: FC = () => {
     const path = `screens/${template.id}`;
 
     dispatch(openWindow(path));
-    window.api.send('open-new-window', path, template.resolution, template.resizeable);
+    // TODO: should propably be handled by redux and have some different interface
+    window.api.send(
+      'open-new-window',
+      path,
+      template.resolution,
+      template.name,
+      template.resizeable
+    );
   };
 
   return (

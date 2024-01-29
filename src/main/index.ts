@@ -4,7 +4,6 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
 
 // TODO: delegate each event to a function in a separate file
-
 const getUrl = (path = '') =>
   is.dev && process.env['ELECTRON_RENDERER_URL']
     ? `${process.env['ELECTRON_RENDERER_URL']}#/${path}`
@@ -108,8 +107,15 @@ app.on('window-all-closed', async () => {
 const windows: { [key: string]: BrowserWindow } = {};
 
 ipcMain.on(
+  // TODO: man you should really strong type the event handlers
   'open-new-window',
-  (_event, pathId: string, resolution: { width: number; height: number }, resizable = false) => {
+  (
+    _event,
+    pathId: string,
+    resolution: { width: number; height: number },
+    name: string,
+    resizable = false
+  ) => {
     const url = getUrl(pathId);
 
     if (windows[pathId]) {
@@ -122,6 +128,9 @@ ipcMain.on(
           preload: join(__dirname, '../preload/index.js'),
         },
         resizable,
+        title: name,
+        autoHideMenuBar: true,
+        fullscreenable: resizable,
       });
 
       windows[pathId] = newWin;
