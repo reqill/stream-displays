@@ -1,13 +1,9 @@
 import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 
+// TODO: maybe just remove this section?
 const Screens: FC = () => {
-  return (
-    <div>
-      <h1>Screens</h1>
-      <Outlet /> {/* This will render the matched child route */}
-    </div>
-  );
+  return <Outlet />;
 };
 
 export default Screens;
