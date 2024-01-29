@@ -32,6 +32,7 @@ type SelectGroupProps<Value> =
   | ControlledSelectGroupProps<Value>
   | UncontrolledSelectGroupProps<Value>;
 
+// TODO: yeah @headlessui already have that so you will need to refactor to use their component
 export const SelectGroup = <Value extends unknown>(props: SelectGroupProps<Value>) => {
   const isControlled = 'selected' in props;
   const selected = isControlled ? props.selected : props.defaultSelected;

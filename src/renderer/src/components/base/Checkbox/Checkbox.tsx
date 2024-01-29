@@ -39,7 +39,7 @@ export const Checkbox: FC<CheckboxProps> = (props) => {
     <label
       {...props.LabelProps}
       className={clsx(
-        'flex items-center gap-2 text-zinc-800 select-none',
+        'flex items-center gap-2 text-zinc-800 select-none w-fit',
         props.LabelProps?.className
       )}
       htmlFor={id}

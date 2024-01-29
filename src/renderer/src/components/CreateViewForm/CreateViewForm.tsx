@@ -58,12 +58,7 @@ export const CreateViewForm: FC<CreateViewFormProps> = ({ onClose, open }) => {
         resizeable,
       })
     ).unwrap();
-    handleClose();
-  };
-
-  const handleClose = () => {
     onClose();
-    resetForm();
   };
 
   const resetForm = () => {
@@ -71,7 +66,15 @@ export const CreateViewForm: FC<CreateViewFormProps> = ({ onClose, open }) => {
     setWidth(DEFAULT_WIDTH);
     setHeight(DEFAULT_HEIGHT);
     setErrorMessage(null);
+    setResizeable(false);
+    setAspectRatio('Off');
   };
+
+  useEffect(() => {
+    if (open) {
+      resetForm();
+    }
+  }, [open]);
 
   const handleNameChange = (value: string) => {
     if (errorMessage) {
@@ -125,7 +128,7 @@ export const CreateViewForm: FC<CreateViewFormProps> = ({ onClose, open }) => {
   return (
     <Dialog
       open={open}
-      onClose={handleClose}
+      onClose={onClose}
       title="Create new view"
       SaveButtonProps={{ onClick: handleSave }}
     >

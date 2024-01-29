@@ -18,8 +18,10 @@ export const SelectGroupOption = <Value extends unknown>(props: SelectGroupOptio
       tabIndex={0}
       onClick={props.onClick}
       className={clsx(
-        'gap-2 select-none min-w-fit bg-zinc-50 px-3 py-[.3rem] flex-grow text-center cursor-pointer hover:bg-blue-100/65 transition-colors',
-        props.selected ? 'text-blue-500 hover:bg-blue-200/70  bg-blue-200/70' : 'text-zinc-700',
+        props.selected
+          ? 'text-blue-500 hover:bg-blue-200/70 bg-blue-200/70'
+          : 'text-zinc-700 bg-zinc-50 hover:bg-blue-100/65',
+        'gap-2 select-none min-w-fit  px-3 py-[.3rem] flex-grow text-center cursor-pointer  transition-colors',
         props.first ? 'rounded-l-sm' : '',
         props.last ? 'rounded-r-sm' : '',
         props.className
