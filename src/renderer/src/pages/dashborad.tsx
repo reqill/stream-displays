@@ -10,7 +10,9 @@ import { useSelector } from 'react-redux';
 const Dashboard: FC = () => {
   const dispatch = useAppDispatch();
 
+  // TODO: refactor - this is not pretty
   const [addTemplateFormIsOpen, setAddTemplateFormIsOpen] = useState(false);
+  const [editTemplate, setEditTemplate] = useState<TemplateViewType | null>(null);
 
   const openedWindowsUrls = useSelector(getOpenenedWindowsSelector);
   const templates = useSelector(getAllTemplatesSelector);
@@ -35,10 +37,12 @@ const Dashboard: FC = () => {
   }, []);
 
   const handleOnAddNewClick = () => {
+    setEditTemplate(null);
     setAddTemplateFormIsOpen(true);
   };
 
   const handleCloseAddTemplateForm = () => {
+    setEditTemplate(null);
     setAddTemplateFormIsOpen(false);
   };
 
@@ -56,6 +60,11 @@ const Dashboard: FC = () => {
     );
   };
 
+  const handleOnTemplateEditClick = (template: TemplateViewType) => {
+    setEditTemplate(template);
+    setAddTemplateFormIsOpen(true);
+  };
+
   return (
     <div className="flex justify-center align-middle w-full h-screen flex-col gap-6 p-6">
       <h1 className="mx-auto font-medium text-3xl text-zinc-200">Your view templates</h1>
@@ -65,9 +74,14 @@ const Dashboard: FC = () => {
           onAddNewClick={handleOnAddNewClick}
           onTemplateClick={handleOnTemplateClick}
           templates={templates}
+          onEditTemplateClick={handleOnTemplateEditClick}
         />
       </div>
-      <CreateViewForm open={addTemplateFormIsOpen} onClose={handleCloseAddTemplateForm} />
+      <CreateViewForm
+        open={addTemplateFormIsOpen}
+        onClose={handleCloseAddTemplateForm}
+        defaultValue={editTemplate}
+      />
     </div>
   );
 };
