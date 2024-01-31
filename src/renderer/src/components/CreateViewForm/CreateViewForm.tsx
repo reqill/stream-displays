@@ -1,6 +1,6 @@
 import { useAppDispatch } from '@renderer/store';
 import { saveTemplate } from '@renderer/store/templates';
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useLayoutEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Dialog } from '../base/Dialog';
 import { Input } from '../base/Input';
@@ -11,13 +11,13 @@ import { getRandomName } from '@renderer/utils/getRandomName';
 import { Checkbox } from '../base/Checkbox';
 import { SelectGroup } from '../base/SelectGroup';
 import { Button } from '../base/Button';
+import { SupportedAspectRatio, TemplateViewType } from '@renderer/types/templateView.types';
 
 type CreateViewFormProps = {
   open?: boolean;
   onClose: () => void;
+  defaultValue?: Partial<TemplateViewType> | null;
 };
-
-type SupportedAspectRatio = 'Off' | '16/9' | '16/10' | '4/3';
 
 // TODO: make this available in /constants and use it also in main window creation
 const DEFAULT_WIDTH = 900;
@@ -27,7 +27,20 @@ const DEFAULT_HEIGHT = 670;
 // const MIN_WIDTH = 150;
 // const MIN_HEIGHT = 115;
 
-export const CreateViewForm: FC<CreateViewFormProps> = ({ onClose, open }) => {
+const defaultTemplateValues: Partial<TemplateViewType> = {
+  resolution: {
+    width: DEFAULT_WIDTH,
+    height: DEFAULT_HEIGHT,
+  },
+  resizeable: false,
+  aspectRatio: 'Off',
+};
+
+export const CreateViewForm: FC<CreateViewFormProps> = ({
+  onClose,
+  open,
+  defaultValue = defaultTemplateValues,
+}) => {
   const dispatch = useAppDispatch();
   // TODO: propably handle with formik
   const [name, setName] = useState('');
@@ -52,25 +65,26 @@ export const CreateViewForm: FC<CreateViewFormProps> = ({ onClose, open }) => {
 
     await dispatch(
       saveTemplate({
-        id: uuidv4(),
+        id: defaultValue?.id || uuidv4(),
         name,
         resolution: { width, height },
         resizeable,
+        aspectRatio,
       })
     ).unwrap();
     onClose();
   };
 
   const resetForm = () => {
-    setName('');
-    setWidth(DEFAULT_WIDTH);
-    setHeight(DEFAULT_HEIGHT);
     setErrorMessage(null);
-    setResizeable(false);
-    setAspectRatio('Off');
+    setName(defaultValue?.name || '');
+    setWidth(defaultValue?.resolution?.width || DEFAULT_WIDTH);
+    setHeight(defaultValue?.resolution?.height || DEFAULT_HEIGHT);
+    setResizeable(defaultValue?.resizeable || false);
+    setAspectRatio(defaultValue?.aspectRatio || 'Off');
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (open) {
       resetForm();
     }

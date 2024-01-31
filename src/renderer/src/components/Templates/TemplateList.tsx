@@ -7,6 +7,7 @@ type TemplateListProps = {
   templates?: TemplateViewType[];
   activeWindowIds?: string[];
   onAddNewClick: () => void;
+  onEditTemplateClick: (template: TemplateViewType) => void;
   onTemplateClick: (template: TemplateViewType) => void;
 };
 
@@ -15,6 +16,7 @@ export const TemplateList: FC<TemplateListProps> = ({
   activeWindowIds,
   onAddNewClick,
   onTemplateClick,
+  onEditTemplateClick,
 }) => {
   return (
     <ul className="flex flex-row gap-3 max-w-screen overflow-auto mx-8 pb-4 px-2">
@@ -23,6 +25,7 @@ export const TemplateList: FC<TemplateListProps> = ({
           <TemplateView
             template={template}
             onClick={onTemplateClick}
+            onEdit={onEditTemplateClick}
             isOpened={activeWindowIds?.includes(template.id)}
           />
         </li>
