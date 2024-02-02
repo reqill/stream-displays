@@ -1,39 +1,32 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
+import type { Api } from './index.types';
+import {
+  API_ON_VALID_CHANNELS,
+  API_REMOVE_LISTENER_VALID_CHANNELS,
+  API_SEND_VALID_CHANNELS,
+} from './index.constants';
 
-// Custom APIs for renderer
-const api = {
-  send: (channel: string, ...args: any[]) => {
-    // whitelist channels
-    const validChannels = ['open-new-window'];
-
-    if (validChannels.includes(channel)) {
+const api: Api = {
+  send: (channel, ...args) => {
+    if (API_SEND_VALID_CHANNELS.includes(channel)) {
       ipcRenderer.send(channel, ...args);
     }
   },
-  on: (channel: string, func: (...args: any[]) => void) => {
-    // whitelist channels
-    const validChannels = ['new-window-closed'];
 
-    if (validChannels.includes(channel)) {
-      // Deliberately strip event as it includes `sender`
+  on: (channel, func: (...args: any[]) => void) => {
+    if (API_ON_VALID_CHANNELS.includes(channel)) {
       ipcRenderer.on(channel, (_event, ...args) => func(...args));
     }
   },
-  removeListener: (channel: string, func: (...args: any[]) => void) => {
-    // whitelist channels
-    const validChannels = ['new-window-closed'];
 
-    if (validChannels.includes(channel)) {
-      // Deliberately strip event as it includes `sender`
+  removeListener: (channel, func: (...args: any[]) => void) => {
+    if (API_REMOVE_LISTENER_VALID_CHANNELS.includes(channel)) {
       ipcRenderer.removeListener(channel, (_event, ...args) => func(...args));
     }
   },
 };
 
-// Use `contextBridge` APIs to expose Electron APIs to
-// renderer only if context isolation is enabled, otherwise
-// just add to the DOM global.
 if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI);

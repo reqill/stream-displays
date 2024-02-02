@@ -11,7 +11,7 @@ import { getRandomName } from '@renderer/utils/getRandomName';
 import { Checkbox } from '../base/Checkbox';
 import { SelectGroup } from '../base/SelectGroup';
 import { Button } from '../base/Button';
-import { SupportedAspectRatio, TemplateViewType } from '@renderer/types/templateView.types';
+import { SupportedAspectRatio, TemplateViewType } from 'src/types/templateView.types';
 
 type CreateViewFormProps = {
   open?: boolean;
@@ -32,7 +32,7 @@ const defaultTemplateValues: Partial<TemplateViewType> = {
     width: DEFAULT_WIDTH,
     height: DEFAULT_HEIGHT,
   },
-  resizeable: false,
+  resizable: false,
   aspectRatio: 'Off',
 };
 
@@ -46,7 +46,7 @@ export const CreateViewForm: FC<CreateViewFormProps> = ({
   const [name, setName] = useState('');
   const [width, setWidth] = useState(DEFAULT_WIDTH);
   const [height, setHeight] = useState(DEFAULT_HEIGHT);
-  const [resizeable, setResizeable] = useState(false);
+  const [resizable, setResresizable] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [funnyPlaceholder, setFunnyplaceholder] = useState(getRandomName);
   const [aspectRatio, setAspectRatio] = useState<SupportedAspectRatio>('Off');
@@ -68,7 +68,7 @@ export const CreateViewForm: FC<CreateViewFormProps> = ({
         id: defaultValue?.id || uuidv4(),
         name,
         resolution: { width, height },
-        resizeable,
+        resizable,
         aspectRatio,
       })
     ).unwrap();
@@ -80,7 +80,7 @@ export const CreateViewForm: FC<CreateViewFormProps> = ({
     setName(defaultValue?.name || '');
     setWidth(defaultValue?.resolution?.width || DEFAULT_WIDTH);
     setHeight(defaultValue?.resolution?.height || DEFAULT_HEIGHT);
-    setResizeable(defaultValue?.resizeable || false);
+    setResresizable(defaultValue?.resizable || false);
     setAspectRatio(defaultValue?.aspectRatio || 'Off');
   };
 
@@ -193,7 +193,7 @@ export const CreateViewForm: FC<CreateViewFormProps> = ({
           </div>
         </InputContainer>
 
-        <Checkbox label="Enable resize" checked={resizeable} onChange={setResizeable} />
+        <Checkbox label="Enable resize" checked={resizable} onChange={setResresizable} />
       </div>
     </Dialog>
   );

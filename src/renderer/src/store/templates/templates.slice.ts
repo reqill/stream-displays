@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { removeTemplate, getAllTemplates, getTemplate } from './templates.thunk';
-import { TemplateViewType } from '@renderer/types/templateView.types';
+import { TemplateViewType } from 'src/types/templateView.types';
 
 type TemplatesState = {
   templates: TemplateViewType[];

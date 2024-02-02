@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AVAILABLE_TEMPLATES_STORAGE_KEY } from '../../constants/availableTemplates';
-import { TemplateViewType } from '@renderer/types/templateView.types';
+import { TemplateViewType } from 'src/types/templateView.types';
 
 const getAvailableTemplates = createAsyncThunk('templates/getAvailableTemplates', async () => {
   const templates = localStorage.getItem(AVAILABLE_TEMPLATES_STORAGE_KEY);

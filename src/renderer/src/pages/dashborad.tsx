@@ -3,9 +3,9 @@ import { TemplateList } from '@renderer/components/Templates/TemplateList';
 import { useAppDispatch } from '@renderer/store';
 import { getAllTemplates, getAllTemplatesSelector } from '@renderer/store/templates';
 import { closeWindow, getOpenenedWindowsSelector, openWindow } from '@renderer/store/windows';
-import { TemplateViewType } from '@renderer/types/templateView.types';
 import { FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { TemplateViewType } from 'src/types/templateView.types';
 
 const Dashboard: FC = () => {
   const dispatch = useAppDispatch();
@@ -51,13 +51,7 @@ const Dashboard: FC = () => {
 
     dispatch(openWindow(path));
     // TODO: should propably be handled by redux and have some different interface
-    window.api.send(
-      'open-new-window',
-      path,
-      template.resolution,
-      template.name,
-      template.resizeable
-    );
+    window.api.send('open-new-window', path, template);
   };
 
   const handleOnTemplateEditClick = (template: TemplateViewType) => {
