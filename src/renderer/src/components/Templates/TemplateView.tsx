@@ -1,10 +1,10 @@
-import { TemplateViewType } from '@renderer/types/templateView.types';
 import { FC, MouseEventHandler } from 'react';
 import { TemplateBox } from './TemplateBox';
 import { useAppDispatch } from '@renderer/store';
 import { removeTemplate } from '@renderer/store/templates';
 import TrashIcon from '@heroicons/react/20/solid/TrashIcon';
 import EditIcon from '@heroicons/react/20/solid/PencilIcon';
+import { TemplateViewType } from 'src/types/templateView.types';
 
 type TemplateViewProps = {
   template: TemplateViewType;

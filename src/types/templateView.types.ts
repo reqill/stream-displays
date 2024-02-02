@@ -7,6 +7,6 @@ export type TemplateViewType = {
     width: number;
     height: number;
   };
-  resizeable?: boolean;
+  resizable?: boolean;
   aspectRatio: SupportedAspectRatio;
 };

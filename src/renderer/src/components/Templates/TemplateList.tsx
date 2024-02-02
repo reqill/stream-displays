@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { TemplateView } from './TemplateView';
-import { TemplateViewType } from '@renderer/types/templateView.types';
 import { AddTemplateView } from './AddTemplateView';
+import { TemplateViewType } from 'src/types/templateView.types';
 
 type TemplateListProps = {
   templates?: TemplateViewType[];
