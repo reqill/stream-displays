@@ -12,9 +12,9 @@ export type ApiRemoveListenerMethods = {
   'new-window-closed': (pathId: string) => void;
 };
 
-export type ApiSend = (
-  channel: keyof ApiSendMethods,
-  ...args: Parameters<ApiSendMethods[keyof ApiSendMethods]>
+export type ApiSend<K extends keyof ApiSendMethods = keyof ApiSendMethods> = (
+  channel: K,
+  ...args: Parameters<ApiSendMethods[K]>
 ) => void;
 
 export type ApiOn = (channel: keyof ApiOnMethods, func: ApiOnMethods[keyof ApiOnMethods]) => void;

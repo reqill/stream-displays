@@ -100,8 +100,8 @@ app.on('window-all-closed', async () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-const windows: { [key: string]: BrowserWindow } = {};
-
+const windows: Record<string, BrowserWindow> = {};
+// due to mainWindow dependency we have to create this function here (or think about better solution to decouple it)
 safeIpcMain.on('open-new-window', (_event, pathId, { resolution, name, resizable = false }) => {
   const url = getUrl(pathId);
 
