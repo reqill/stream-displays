@@ -2,8 +2,11 @@ import type { ApiOnMethods, ApiRemoveListenerMethods, ApiSendMethods } from './i
 
 export const API_SEND_VALID_CHANNELS: Array<keyof ApiSendMethods> = ['open-new-window'];
 
-export const API_ON_VALID_CHANNELS: Array<keyof ApiOnMethods> = ['new-window-closed'];
+export const API_ON_VALID_CHANNELS: Array<keyof ApiOnMethods> = [
+  'new-window-closed',
+  'edit-shortcut-pressed',
+];
 
 export const API_REMOVE_LISTENER_VALID_CHANNELS: Array<keyof ApiRemoveListenerMethods> = [
-  'new-window-closed',
+  ...API_ON_VALID_CHANNELS,
 ];

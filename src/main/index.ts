@@ -19,6 +19,7 @@ function createWindow(): void {
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false,
+      contextIsolation: true,
     },
   });
 
@@ -113,6 +114,8 @@ safeIpcMain.on('open-new-window', (_event, pathId, { resolution, name, resizable
       height: resolution.height,
       webPreferences: {
         preload: join(__dirname, '../preload/index.js'),
+        contextIsolation: true,
+        sandbox: false,
       },
       resizable,
       title: name,
@@ -122,6 +125,13 @@ safeIpcMain.on('open-new-window', (_event, pathId, { resolution, name, resizable
 
     windows[pathId] = newWin;
     newWin.loadURL(url);
+
+    newWin.webContents.on('before-input-event', (event, input) => {
+      if (input.control && input.key.toLowerCase() === 'e') {
+        event.preventDefault();
+        newWin.webContents.send('edit-shortcut-pressed');
+      }
+    });
 
     newWin.on('closed', () => {
       delete windows[pathId];
