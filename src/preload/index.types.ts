@@ -6,11 +6,10 @@ export type ApiSendMethods = {
 
 export type ApiOnMethods = {
   'new-window-closed': (pathId: string) => void;
+  'edit-shortcut-pressed': () => void;
 };
 
-export type ApiRemoveListenerMethods = {
-  'new-window-closed': (pathId: string) => void;
-};
+export type ApiRemoveListenerMethods = ApiOnMethods;
 
 export type ApiSend<K extends keyof ApiSendMethods = keyof ApiSendMethods> = (
   channel: K,
