@@ -5,7 +5,6 @@ type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
 
 type ButtonProps = {
   children?: ReactNode;
-  onClick?: () => void;
   variant?: ButtonVariant;
 } & JSX.IntrinsicElements['button'];
 
